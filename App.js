@@ -1,75 +1,75 @@
 import { StatusBar } from 'expo-status-bar';
-import React,{useState} from 'react';
-import { StyleSheet, Text, View,TextInput,Button,Picker,CheckBox } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, TextInput, Button, Picker, CheckBox, Image } from 'react-native';
 
 export default function App() {
-  const [identificacion,setIdentificacion] = useState('');
-  const [nombre,setNombre] = useState('');
+  const [identificacion, setIdentificacion] = useState('');
+  const [nombre, setNombre] = useState('');
   const [destino, setDestino] = useState("");
-  const [nroPersonas,setNroPersonas] = useState("");
-  const [nroDias,setNroDias] = useState('');
+  const [nroPersonas, setNroPersonas] = useState("");
+  const [nroDias, setNroDias] = useState('');
   const [barco, setBarco] = useState(false);
-  const [discoteca,setDiscoteca] = useState(false);
-  const [totalPago,setTotalPagar] = useState("");
-  const [error,setError]= useState();
+  const [discoteca, setDiscoteca] = useState(false);
+  const [totalPago, setTotalPagar] = useState("");
+  const [error, setError] = useState();
 
   let personasViaje = parseInt(nroPersonas);
   let diasViaje = parseInt(nroDias);
-  let costoAdicional=0;
+  let costoAdicional = 0;
   let total;
   let descuento = false;
-  
-  const viaje = () =>{
+
+  const viaje = () => {
     if (identificacion == '') {
       setError('Digite Identifiacion')
-    }else if(nombre == ''){
+    } else if (nombre == '') {
       setError('Digite un Nombre')
-    }else if(destino == ''){
+    } else if (destino == '') {
       setError('Debe seleccionar un destino')
-    }else if(nroPersonas==''){
+    } else if (nroPersonas == '') {
       setError('el numero de personas debe de ser mayor a 0')
-    }else if(nroDias==''){
+    } else if (nroDias == '') {
       setError('el numero de Dias debe de ser mayor a 0')
-    }else{
+    } else {
 
       if (barco) {
         costoAdicional += 100000;
       }
 
-      if(discoteca){
+      if (discoteca) {
         costoAdicional += 120000;
       }
 
-      if(personasViaje>=10){
-        descuento=true;
+      if (personasViaje >= 10) {
+        descuento = true;
       }
 
-        switch (destino) {
-          case 'ca':
-            total=((300000*personasViaje)*diasViaje)+(costoAdicional*personasViaje);
-            setTotalPagar((descuento)?total-(total*0.10):total);
-            setError('')
-            costoAdicional =0;
-            break;
-  
-          case 'sm':
-            total=((250000*personasViaje)*diasViaje)+(costoAdicional*personasViaje);
-            setTotalPagar((descuento)?total-(total*0.10):total);
-            setError('')
-            costoAdicional =0;
-            break;
-  
-          case 'sa':
-            total=((200000*personasViaje)*diasViaje)+(costoAdicional*personasViaje);
-            setTotalPagar((descuento)?total-(total*0.10):total);
-            setError('')
-            costoAdicional =0;
-            break;
-        }
+      switch (destino) {
+        case 'ca':
+          total = ((300000 * personasViaje) * diasViaje) + (costoAdicional * personasViaje);
+          setTotalPagar((descuento) ? total - (total * 0.10) : total);
+          setError('')
+          costoAdicional = 0;
+          break;
+
+        case 'sm':
+          total = ((250000 * personasViaje) * diasViaje) + (costoAdicional * personasViaje);
+          setTotalPagar((descuento) ? total - (total * 0.10) : total);
+          setError('')
+          costoAdicional = 0;
+          break;
+
+        case 'sa':
+          total = ((200000 * personasViaje) * diasViaje) + (costoAdicional * personasViaje);
+          setTotalPagar((descuento) ? total - (total * 0.10) : total);
+          setError('')
+          costoAdicional = 0;
+          break;
+      }
     }
   };
 
-  const limpiar= ()=>{
+  const limpiar = () => {
     setIdentificacion("");
     setBarco("");
     setDestino("");
@@ -85,8 +85,13 @@ export default function App() {
     <View style={styles.container}>
       <View style={styles.titleContainer}>
         <Text style={styles.title}>Agencia de Turismo</Text>
-      </View> 
+      </View>
       <View style={styles.form}>
+
+        <Image
+          source={require('./images/descarga.jpg')}
+          style={{ width: 150, height: 100, borderRadius: 10, borderColor: 'red', borderWidth: 2, resizeMode: 'stretch', marginRight: 5 }}
+        />
 
         <View style={styles.conts}>
           <Text>Identificación: </Text>
@@ -145,7 +150,7 @@ export default function App() {
         </View>
 
       </View>
-      <Text style={{color:'red'}}>{error}</Text>
+      <Text style={{ color: 'red' }}>{error}</Text>
       <View style={styles.footer}>
         <Button style={styles.button} title="Calcular" onPress={viaje}></Button>
         <Button style={styles.button} title="Limpiar" onPress={limpiar}>Limpiar</Button>
